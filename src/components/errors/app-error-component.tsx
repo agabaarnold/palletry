@@ -89,7 +89,13 @@ const AppErrorComponent = ({ error, info }: ErrorComponentProps) => {
 									<pre className="wrap-break-word whitespace-pre-wrap text-xs">
 										{error instanceof Error
 											? (error.stack ?? error.message)
-											: JSON.stringify(error, null, 2)}
+											: (() => {
+													try {
+														return JSON.stringify(error, null, 2);
+													} catch {
+														return String(error);
+													}
+												})()}
 									</pre>
 								</div>
 
