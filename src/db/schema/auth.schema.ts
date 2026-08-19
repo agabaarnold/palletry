@@ -1,18 +1,18 @@
 import { index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
 
 export const users = snakeCase.table("users", (t) => ({
-	banExpires: t.timestamp("ban_expires"),
-	banned: t.boolean("banned").default(false),
-	banReason: t.text("ban_reason"),
-	createdAt: t.timestamp("created_at").defaultNow().notNull(),
-	email: t.text("email").notNull().unique(),
-	emailVerified: t.boolean("email_verified").default(false).notNull(),
-	id: t.text("id").primaryKey(),
-	image: t.text("image"),
-	name: t.text("name").notNull(),
-	role: t.text("role"),
+	banExpires: t.timestamp(),
+	banned: t.boolean().default(false),
+	banReason: t.text(),
+	createdAt: t.timestamp().defaultNow().notNull(),
+	email: t.text().notNull().unique(),
+	emailVerified: t.boolean().default(false).notNull(),
+	id: t.text().primaryKey(),
+	image: t.text(),
+	name: t.text().notNull(),
+	role: t.text(),
 	updatedAt: t
-		.timestamp("updated_at")
+		.timestamp()
 		.defaultNow()
 		.$onUpdate(() => /* @__PURE__ */ new Date())
 		.notNull(),
@@ -21,19 +21,19 @@ export const users = snakeCase.table("users", (t) => ({
 export const sessions = snakeCase.table(
 	"sessions",
 	(t) => ({
-		createdAt: t.timestamp("created_at").defaultNow().notNull(),
-		expiresAt: t.timestamp("expires_at").notNull(),
-		id: t.text("id").primaryKey(),
-		impersonatedBy: t.text("impersonated_by"),
-		ipAddress: t.text("ip_address"),
-		token: t.text("token").notNull().unique(),
+		createdAt: t.timestamp().defaultNow().notNull(),
+		expiresAt: t.timestamp().notNull(),
+		id: t.text().primaryKey(),
+		impersonatedBy: t.text(),
+		ipAddress: t.text(),
+		token: t.text().notNull().unique(),
 		updatedAt: t
-			.timestamp("updated_at")
+			.timestamp()
 			.$onUpdate(() => /* @__PURE__ */ new Date())
 			.notNull(),
-		userAgent: t.text("user_agent"),
+		userAgent: t.text(),
 		userId: t
-			.text("user_id")
+			.text()
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
 	}),
