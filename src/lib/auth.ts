@@ -13,10 +13,11 @@ export const auth = betterAuth({
 		},
 	},
 	database: drizzleAdapter(db, { provider: "pg", schema, usePlural: true }),
-	emailAndPassword: {
-		enabled: true,
-	},
-	plugins: [admin({ ac, roles }), tanstackStartCookies()],
+	emailAndPassword: { disableSignUp: true, enabled: true },
+	plugins: [
+		admin({ ac, adminRoles: ["admin", "super-admin"], roles }),
+		tanstackStartCookies(),
+	],
 	session: {
 		cookieCache: {
 			enabled: true,
