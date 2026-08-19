@@ -24,7 +24,7 @@ import {
 } from "../ui/card";
 import { Separator } from "../ui/separator";
 
-const AppErrorComponent = ({ error, reset, info }: ErrorComponentProps) => {
+const AppErrorComponent = ({ error, info }: ErrorComponentProps) => {
 	const router = useRouter();
 
 	const message =
@@ -37,7 +37,6 @@ const AppErrorComponent = ({ error, reset, info }: ErrorComponentProps) => {
 	const handleRetry = () => {
 		// biome-ignore lint/complexity/noVoid: Ignore
 		void router.invalidate();
-		reset();
 	};
 
 	const handleBack = () => {
