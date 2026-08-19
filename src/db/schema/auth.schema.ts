@@ -43,24 +43,24 @@ export const sessions = snakeCase.table(
 export const accounts = snakeCase.table(
 	"accounts",
 	(t) => ({
-		accessToken: t.text("access_token"),
-		accessTokenExpiresAt: t.timestamp("access_token_expires_at"),
-		accountId: t.text("account_id").notNull(),
-		createdAt: t.timestamp("created_at").defaultNow().notNull(),
-		id: t.text("id").primaryKey(),
-		idToken: t.text("id_token"),
-		issuer: t.text("issuer").notNull(),
-		password: t.text("password"),
-		providerId: t.text("provider_id").notNull(),
-		refreshToken: t.text("refresh_token"),
-		refreshTokenExpiresAt: t.timestamp("refresh_token_expires_at"),
-		scope: t.text("scope"),
+		accessToken: t.text(),
+		accessTokenExpiresAt: t.timestamp(),
+		accountId: t.text().notNull(),
+		createdAt: t.timestamp().defaultNow().notNull(),
+		id: t.text().primaryKey(),
+		idToken: t.text(),
+		issuer: t.text().notNull(),
+		password: t.text(),
+		providerId: t.text().notNull(),
+		refreshToken: t.text(),
+		refreshTokenExpiresAt: t.timestamp(),
+		scope: t.text(),
 		updatedAt: t
-			.timestamp("updated_at")
+			.timestamp()
 			.$onUpdate(() => /* @__PURE__ */ new Date())
 			.notNull(),
 		userId: t
-			.text("user_id")
+			.text()
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
 	}),
@@ -76,16 +76,16 @@ export const accounts = snakeCase.table(
 export const verifications = snakeCase.table(
 	"verifications",
 	(t) => ({
-		createdAt: t.timestamp("created_at").defaultNow().notNull(),
-		expiresAt: t.timestamp("expires_at").notNull(),
-		id: t.text("id").primaryKey(),
-		identifier: t.text("identifier").notNull(),
+		createdAt: t.timestamp().defaultNow().notNull(),
+		expiresAt: t.timestamp().notNull(),
+		id: t.text().primaryKey(),
+		identifier: t.text().notNull(),
 		updatedAt: t
-			.timestamp("updated_at")
+			.timestamp()
 			.defaultNow()
 			.$onUpdate(() => /* @__PURE__ */ new Date())
 			.notNull(),
-		value: t.text("value").notNull(),
+		value: t.text().notNull(),
 	}),
 	(table) => [index("verifications_identifier_idx").on(table.identifier)]
 );
