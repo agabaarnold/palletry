@@ -1,8 +1,7 @@
 import { createAccessControl } from "better-auth/plugins/access";
 import { adminAc, defaultStatements } from "better-auth/plugins/admin/access";
 
-const statements = {
-	...defaultStatements,
+const appStatements = {
 	adjustment: ["create", "read", "post"],
 	catalog: ["create", "read", "update", "archive"],
 	customer: ["create", "read", "update", "archive"],
@@ -19,43 +18,22 @@ const statements = {
 	warehouse: ["create", "read", "update", "archive"],
 } as const;
 
+const statements = {
+	...defaultStatements,
+	...appStatements,
+} as const;
+
 export const ac = createAccessControl(statements);
 
 const superAdminRole = ac.newRole({
 	...adminAc.statements,
-	adjustment: ["create", "read", "post"],
-	catalog: ["create", "read", "update", "archive"],
-	customer: ["create", "read", "update", "archive"],
-	goods_receipt: ["create", "read"],
-	lot: ["read", "update"],
-	purchase_order: ["create", "read", "update", "submit", "cancel"],
-	sales_fulfillment: ["create", "read"],
-	sales_order: ["create", "read", "update", "cancel"],
-	stock: ["read"],
-	stock_issue: ["create", "read", "post"],
-	supplier: ["create", "read", "update", "archive"],
-	transfer: ["create", "read", "post"],
+	...appStatements,
 	user: [...adminAc.statements.user, "impersonate-admins"],
-	valuation: ["read"],
-	warehouse: ["create", "read", "update", "archive"],
 });
 
 const adminRole = ac.newRole({
 	...adminAc.statements,
-	adjustment: ["create", "read", "post"],
-	catalog: ["create", "read", "update", "archive"],
-	customer: ["create", "read", "update", "archive"],
-	goods_receipt: ["create", "read"],
-	lot: ["read", "update"],
-	purchase_order: ["create", "read", "update", "submit", "cancel"],
-	sales_fulfillment: ["create", "read"],
-	sales_order: ["create", "read", "update", "cancel"],
-	stock: ["read"],
-	stock_issue: ["create", "read", "post"],
-	supplier: ["create", "read", "update", "archive"],
-	transfer: ["create", "read", "post"],
-	valuation: ["read"],
-	warehouse: ["create", "read", "update", "archive"],
+	...appStatements,
 });
 
 export const inventoryManager = ac.newRole({
