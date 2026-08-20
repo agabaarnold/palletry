@@ -1,5 +1,4 @@
-import type { AnyPgColumn } from "drizzle-orm/pg-core";
-import { index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
+import { foreignKey, index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
 
 export const warehouses = snakeCase.table(
 	"warehouses",
@@ -23,18 +22,24 @@ export const storageLocations = snakeCase.table(
 		id: t.uuid().defaultRandom().primaryKey(),
 		name: t.text().notNull(),
 		// Self-reference for the location hierarchy (design doc §2.1/§2.3,
-		// v0.2). INVARIANT (not expressible as a plain FK, enforce at the
-		// application layer or via trigger): a location's parent must
-		// belong to the same warehouseId as the child.
-		parentId: t.uuid().references((): AnyPgColumn => storageLocations.id, {
-			onDelete: "restrict",
-		}),
+		// v0.2). Composite FK (parentId, warehouseId) -> (id, warehouseId)
+		// enforces that a parent belongs to the same warehouse as the child.
+		parentId: t.uuid(),
 		warehouseId: t
 			.uuid()
 			.notNull()
 			.references(() => warehouses.id, { onDelete: "restrict" }),
 	}),
 	(table) => [
+		foreignKey({
+			columns: [table.parentId, table.warehouseId],
+			foreignColumns: [table.id, table.warehouseId],
+			name: "storage_locations_parent_warehouse_fk",
+		}).onDelete("restrict"),
+		uniqueIndex("storage_locations_id_warehouse_id_uidx").on(
+			table.id,
+			table.warehouseId
+		),
 		uniqueIndex("storage_locations_warehouse_id_code_uidx").on(
 			table.warehouseId,
 			table.code
