@@ -2,9 +2,7 @@
   "version": "8",
   "dialect": "postgres",
   "id": "05d80608-782c-41bd-9c9f-0982c1b09233",
-  "prevIds": [
-    "24571886-7465-46a2-ba0e-0037a6b5ff7c"
-  ],
+  "prevIds": ["24571886-7465-46a2-ba0e-0037a6b5ff7c"],
   "ddl": [
     {
       "isRlsEnabled": false,
@@ -3836,14 +3834,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "actor_id"
-      ],
+      "columns": ["actor_id"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "audit_log_actor_id_users_id_fkey",
@@ -3853,14 +3847,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "user_id"
-      ],
+      "columns": ["user_id"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "accounts_user_id_users_id_fkey",
@@ -3870,14 +3860,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "user_id"
-      ],
+      "columns": ["user_id"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "sessions_user_id_users_id_fkey",
@@ -3887,14 +3873,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "parent_id"
-      ],
+      "columns": ["parent_id"],
       "schemaTo": "public",
       "tableTo": "categories",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "categories_parent_id_categories_id_fkey",
@@ -3904,14 +3886,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "base_uom_id"
-      ],
+      "columns": ["base_uom_id"],
       "schemaTo": "public",
       "tableTo": "units_of_measure",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "product_variants_base_uom_id_units_of_measure_id_fkey",
@@ -3921,14 +3899,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "product_id"
-      ],
+      "columns": ["product_id"],
       "schemaTo": "public",
       "tableTo": "products",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "product_variants_product_id_products_id_fkey",
@@ -3938,14 +3912,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "category_id"
-      ],
+      "columns": ["category_id"],
       "schemaTo": "public",
       "tableTo": "categories",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "products_category_id_categories_id_fkey",
@@ -3955,14 +3925,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "storage_location_id"
-      ],
+      "columns": ["storage_location_id"],
       "schemaTo": "public",
       "tableTo": "storage_locations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "lot_stock_levels_storage_location_id_storage_locations_id_fkey",
@@ -3972,16 +3938,10 @@
     },
     {
       "nameExplicit": true,
-      "columns": [
-        "lot_id",
-        "product_variant_id"
-      ],
+      "columns": ["lot_id", "product_variant_id"],
       "schemaTo": "public",
       "tableTo": "lots",
-      "columnsTo": [
-        "id",
-        "product_variant_id"
-      ],
+      "columnsTo": ["id", "product_variant_id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "lot_stock_levels_lot_variant_fk",
@@ -3991,14 +3951,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "product_variant_id"
-      ],
+      "columns": ["product_variant_id"],
       "schemaTo": "public",
       "tableTo": "product_variants",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "lots_product_variant_id_product_variants_id_fkey",
@@ -4008,14 +3964,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "product_variant_id"
-      ],
+      "columns": ["product_variant_id"],
       "schemaTo": "public",
       "tableTo": "product_variants",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "variant_costing_product_variant_id_product_variants_id_fkey",
@@ -4025,14 +3977,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "goods_receipt_id"
-      ],
+      "columns": ["goods_receipt_id"],
       "schemaTo": "public",
       "tableTo": "goods_receipts",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "goods_receipt_lines_goods_receipt_id_goods_receipts_id_fkey",
@@ -4042,14 +3990,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "purchase_order_line_id"
-      ],
+      "columns": ["purchase_order_line_id"],
       "schemaTo": "public",
       "tableTo": "purchase_order_lines",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "goods_receipt_lines_mEtCgTKnv5iy_fkey",
@@ -4059,14 +4003,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "storage_location_id"
-      ],
+      "columns": ["storage_location_id"],
       "schemaTo": "public",
       "tableTo": "storage_locations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "goods_receipt_lines_4DbHiSm9opDc_fkey",
@@ -4076,14 +4016,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "purchase_order_id"
-      ],
+      "columns": ["purchase_order_id"],
       "schemaTo": "public",
       "tableTo": "purchase_orders",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "goods_receipts_purchase_order_id_purchase_orders_id_fkey",
@@ -4093,14 +4029,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "received_by"
-      ],
+      "columns": ["received_by"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "goods_receipts_received_by_users_id_fkey",
@@ -4110,14 +4042,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "product_variant_id"
-      ],
+      "columns": ["product_variant_id"],
       "schemaTo": "public",
       "tableTo": "product_variants",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "purchase_order_lines_C3kUiL9mmy9z_fkey",
@@ -4127,14 +4055,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "purchase_order_id"
-      ],
+      "columns": ["purchase_order_id"],
       "schemaTo": "public",
       "tableTo": "purchase_orders",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "purchase_order_lines_purchase_order_id_purchase_orders_id_fkey",
@@ -4144,14 +4068,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "created_by"
-      ],
+      "columns": ["created_by"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "purchase_orders_created_by_users_id_fkey",
@@ -4161,14 +4081,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "supplier_id"
-      ],
+      "columns": ["supplier_id"],
       "schemaTo": "public",
       "tableTo": "suppliers",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "purchase_orders_supplier_id_suppliers_id_fkey",
@@ -4178,14 +4094,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "lot_id"
-      ],
+      "columns": ["lot_id"],
       "schemaTo": "public",
       "tableTo": "lots",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "sales_fulfillment_lines_lot_id_lots_id_fkey",
@@ -4195,14 +4107,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "sales_fulfillment_id"
-      ],
+      "columns": ["sales_fulfillment_id"],
       "schemaTo": "public",
       "tableTo": "sales_fulfillments",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "sales_fulfillment_lines_AhS2rsrjPEM0_fkey",
@@ -4212,14 +4120,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "sales_order_line_id"
-      ],
+      "columns": ["sales_order_line_id"],
       "schemaTo": "public",
       "tableTo": "sales_order_lines",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "sales_fulfillment_lines_YMgLalThUrTQ_fkey",
@@ -4229,14 +4133,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "storage_location_id"
-      ],
+      "columns": ["storage_location_id"],
       "schemaTo": "public",
       "tableTo": "storage_locations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "sales_fulfillment_lines_p5V3p8kRob1e_fkey",
@@ -4246,14 +4146,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "fulfilled_by"
-      ],
+      "columns": ["fulfilled_by"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "sales_fulfillments_fulfilled_by_users_id_fkey",
@@ -4263,14 +4159,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "sales_order_id"
-      ],
+      "columns": ["sales_order_id"],
       "schemaTo": "public",
       "tableTo": "sales_orders",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "sales_fulfillments_sales_order_id_sales_orders_id_fkey",
@@ -4280,14 +4172,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "product_variant_id"
-      ],
+      "columns": ["product_variant_id"],
       "schemaTo": "public",
       "tableTo": "product_variants",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "sales_order_lines_product_variant_id_product_variants_id_fkey",
@@ -4297,14 +4185,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "sales_order_id"
-      ],
+      "columns": ["sales_order_id"],
       "schemaTo": "public",
       "tableTo": "sales_orders",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "sales_order_lines_sales_order_id_sales_orders_id_fkey",
@@ -4314,14 +4198,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "created_by"
-      ],
+      "columns": ["created_by"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "sales_orders_created_by_users_id_fkey",
@@ -4331,14 +4211,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "customer_id"
-      ],
+      "columns": ["customer_id"],
       "schemaTo": "public",
       "tableTo": "customers",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "sales_orders_customer_id_customers_id_fkey",
@@ -4348,14 +4224,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "adjustment_id"
-      ],
+      "columns": ["adjustment_id"],
       "schemaTo": "public",
       "tableTo": "adjustments",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "adjustment_lines_adjustment_id_adjustments_id_fkey",
@@ -4365,14 +4237,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "lot_id"
-      ],
+      "columns": ["lot_id"],
       "schemaTo": "public",
       "tableTo": "lots",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "adjustment_lines_lot_id_lots_id_fkey",
@@ -4382,14 +4250,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "product_variant_id"
-      ],
+      "columns": ["product_variant_id"],
       "schemaTo": "public",
       "tableTo": "product_variants",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "adjustment_lines_product_variant_id_product_variants_id_fkey",
@@ -4399,14 +4263,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "storage_location_id"
-      ],
+      "columns": ["storage_location_id"],
       "schemaTo": "public",
       "tableTo": "storage_locations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "adjustment_lines_storage_location_id_storage_locations_id_fkey",
@@ -4416,14 +4276,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "posted_by"
-      ],
+      "columns": ["posted_by"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "adjustments_posted_by_users_id_fkey",
@@ -4433,14 +4289,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "lot_id"
-      ],
+      "columns": ["lot_id"],
       "schemaTo": "public",
       "tableTo": "lots",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "stock_issue_lines_lot_id_lots_id_fkey",
@@ -4450,14 +4302,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "product_variant_id"
-      ],
+      "columns": ["product_variant_id"],
       "schemaTo": "public",
       "tableTo": "product_variants",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "stock_issue_lines_product_variant_id_product_variants_id_fkey",
@@ -4467,14 +4315,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "stock_issue_id"
-      ],
+      "columns": ["stock_issue_id"],
       "schemaTo": "public",
       "tableTo": "stock_issues",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "stock_issue_lines_stock_issue_id_stock_issues_id_fkey",
@@ -4484,14 +4328,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "storage_location_id"
-      ],
+      "columns": ["storage_location_id"],
       "schemaTo": "public",
       "tableTo": "storage_locations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "stock_issue_lines_storage_location_id_storage_locations_id_fkey",
@@ -4501,14 +4341,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "posted_by"
-      ],
+      "columns": ["posted_by"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "stock_issues_posted_by_users_id_fkey",
@@ -4518,14 +4354,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "lot_id"
-      ],
+      "columns": ["lot_id"],
       "schemaTo": "public",
       "tableTo": "lots",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "stock_movements_lot_id_lots_id_fkey",
@@ -4535,14 +4367,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "performed_by"
-      ],
+      "columns": ["performed_by"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "stock_movements_performed_by_users_id_fkey",
@@ -4552,14 +4380,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "product_variant_id"
-      ],
+      "columns": ["product_variant_id"],
       "schemaTo": "public",
       "tableTo": "product_variants",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "stock_movements_product_variant_id_product_variants_id_fkey",
@@ -4569,14 +4393,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "storage_location_id"
-      ],
+      "columns": ["storage_location_id"],
       "schemaTo": "public",
       "tableTo": "storage_locations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "stock_movements_storage_location_id_storage_locations_id_fkey",
@@ -4586,14 +4406,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "from_location_id"
-      ],
+      "columns": ["from_location_id"],
       "schemaTo": "public",
       "tableTo": "storage_locations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "transfer_lines_from_location_id_storage_locations_id_fkey",
@@ -4603,14 +4419,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "lot_id"
-      ],
+      "columns": ["lot_id"],
       "schemaTo": "public",
       "tableTo": "lots",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "transfer_lines_lot_id_lots_id_fkey",
@@ -4620,14 +4432,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "product_variant_id"
-      ],
+      "columns": ["product_variant_id"],
       "schemaTo": "public",
       "tableTo": "product_variants",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "transfer_lines_product_variant_id_product_variants_id_fkey",
@@ -4637,14 +4445,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "to_location_id"
-      ],
+      "columns": ["to_location_id"],
       "schemaTo": "public",
       "tableTo": "storage_locations",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "transfer_lines_to_location_id_storage_locations_id_fkey",
@@ -4654,14 +4458,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "transfer_id"
-      ],
+      "columns": ["transfer_id"],
       "schemaTo": "public",
       "tableTo": "transfers",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "CASCADE",
       "name": "transfer_lines_transfer_id_transfers_id_fkey",
@@ -4671,14 +4471,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "posted_by"
-      ],
+      "columns": ["posted_by"],
       "schemaTo": "public",
       "tableTo": "users",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "transfers_posted_by_users_id_fkey",
@@ -4688,14 +4484,10 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "warehouse_id"
-      ],
+      "columns": ["warehouse_id"],
       "schemaTo": "public",
       "tableTo": "warehouses",
-      "columnsTo": [
-        "id"
-      ],
+      "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "storage_locations_warehouse_id_warehouses_id_fkey",
@@ -4705,16 +4497,10 @@
     },
     {
       "nameExplicit": true,
-      "columns": [
-        "parent_id",
-        "warehouse_id"
-      ],
+      "columns": ["parent_id", "warehouse_id"],
       "schemaTo": "public",
       "tableTo": "storage_locations",
-      "columnsTo": [
-        "id",
-        "warehouse_id"
-      ],
+      "columnsTo": ["id", "warehouse_id"],
       "onUpdate": "NO ACTION",
       "onDelete": "RESTRICT",
       "name": "storage_locations_parent_warehouse_fk",
@@ -4723,9 +4509,7 @@
       "table": "storage_locations"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "audit_log_pkey",
       "schema": "public",
@@ -4733,9 +4517,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "accounts_pkey",
       "schema": "public",
@@ -4743,9 +4525,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "sessions_pkey",
       "schema": "public",
@@ -4753,9 +4533,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "users_pkey",
       "schema": "public",
@@ -4763,9 +4541,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "verifications_pkey",
       "schema": "public",
@@ -4773,9 +4549,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "categories_pkey",
       "schema": "public",
@@ -4783,9 +4557,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "product_variants_pkey",
       "schema": "public",
@@ -4793,9 +4565,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "products_pkey",
       "schema": "public",
@@ -4803,9 +4573,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "units_of_measure_pkey",
       "schema": "public",
@@ -4813,9 +4581,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "lot_stock_levels_pkey",
       "schema": "public",
@@ -4823,9 +4589,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "lots_pkey",
       "schema": "public",
@@ -4833,9 +4597,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "product_variant_id"
-      ],
+      "columns": ["product_variant_id"],
       "nameExplicit": false,
       "name": "variant_costing_pkey",
       "schema": "public",
@@ -4843,9 +4605,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "goods_receipt_lines_pkey",
       "schema": "public",
@@ -4853,9 +4613,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "goods_receipts_pkey",
       "schema": "public",
@@ -4863,9 +4621,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "purchase_order_lines_pkey",
       "schema": "public",
@@ -4873,9 +4629,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "purchase_orders_pkey",
       "schema": "public",
@@ -4883,9 +4637,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "customers_pkey",
       "schema": "public",
@@ -4893,9 +4645,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "sales_fulfillment_lines_pkey",
       "schema": "public",
@@ -4903,9 +4653,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "sales_fulfillments_pkey",
       "schema": "public",
@@ -4913,9 +4661,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "sales_order_lines_pkey",
       "schema": "public",
@@ -4923,9 +4669,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "sales_orders_pkey",
       "schema": "public",
@@ -4933,9 +4677,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "adjustment_lines_pkey",
       "schema": "public",
@@ -4943,9 +4685,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "adjustments_pkey",
       "schema": "public",
@@ -4953,9 +4693,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "stock_issue_lines_pkey",
       "schema": "public",
@@ -4963,9 +4701,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "stock_issues_pkey",
       "schema": "public",
@@ -4973,9 +4709,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "stock_movements_pkey",
       "schema": "public",
@@ -4983,9 +4717,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "transfer_lines_pkey",
       "schema": "public",
@@ -4993,9 +4725,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "transfers_pkey",
       "schema": "public",
@@ -5003,9 +4733,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "suppliers_pkey",
       "schema": "public",
@@ -5013,9 +4741,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "storage_locations_pkey",
       "schema": "public",
@@ -5023,9 +4749,7 @@
       "entityType": "pks"
     },
     {
-      "columns": [
-        "id"
-      ],
+      "columns": ["id"],
       "nameExplicit": false,
       "name": "warehouses_pkey",
       "schema": "public",
@@ -5034,9 +4758,7 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "token"
-      ],
+      "columns": ["token"],
       "nullsNotDistinct": false,
       "name": "sessions_token_key",
       "schema": "public",
@@ -5045,9 +4767,7 @@
     },
     {
       "nameExplicit": false,
-      "columns": [
-        "email"
-      ],
+      "columns": ["email"],
       "nullsNotDistinct": false,
       "name": "users_email_key",
       "schema": "public",
