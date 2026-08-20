@@ -1,6 +1,13 @@
 import { sql } from "drizzle-orm";
-import { foreignKey, index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
+import {
+	check,
+	foreignKey,
+	index,
+	snakeCase,
+	uniqueIndex,
+} from "drizzle-orm/pg-core";
 import { productVariants } from "./catalog.schema";
+import { goodsReceiptLines } from "./purchasing.schema";
 import { storageLocations } from "./warehouse.schema";
 
 // Design doc §2.2/§3.4 (v0.2). Lots handle traceability (which batch,
@@ -11,16 +18,22 @@ import { storageLocations } from "./warehouse.schema";
 export const lots = snakeCase.table(
 	"lots",
 	(t) => ({
+		// FK to adjustment_lines is defined in stock.schema.ts (which already
+		// imports lots) to avoid a circular dependency between lots.schema and
+		// stock.schema.  The CHECK constraint below plus app-layer enforcement
+		//保证 that the reference is valid.
+		adjustmentLineId: t.uuid(),
 		createdAt: t.timestamp().defaultNow().notNull(),
 		expiryDate: t.date(),
+		// Replaced polymorphic originType/originId with typed nullable FKs.
+		// Exactly one must be non-null — enforced by lots_origin_exclusive_chk.
+		goodsReceiptLineId: t
+			.uuid()
+			.references(() => goodsReceiptLines.id, { onDelete: "restrict" }),
 		id: t.uuid().defaultRandom().primaryKey(),
 		// Populated only when the variant's trackingType is "lot"; every
 		// receipt still creates a lot row regardless (see catalog.schema.ts).
 		lotNumber: t.text(),
-		originId: t.uuid().notNull(),
-		// "goods_receipt_line" | "adjustment_line" — polymorphic origin,
-		// no FK (the two possible parents don't share a table).
-		originType: t.text().notNull(),
 		productVariantId: t
 			.uuid()
 			.notNull()
@@ -30,6 +43,18 @@ export const lots = snakeCase.table(
 		receivedUnitCost: t.numeric({ precision: 14, scale: 4 }),
 	}),
 	(table) => [
+		check(
+			"lots_origin_exclusive_chk",
+			sql`(
+				(${table.goodsReceiptLineId} IS NOT NULL AND ${table.adjustmentLineId} IS NULL)
+				OR
+				(${table.goodsReceiptLineId} IS NULL AND ${table.adjustmentLineId} IS NOT NULL)
+			)`
+		),
+		check(
+			"lots_received_unit_cost_nonneg_chk",
+			sql`${table.receivedUnitCost} >= 0`
+		),
 		uniqueIndex("lots_id_product_variant_id_uidx").on(
 			table.id,
 			table.productVariantId
@@ -43,6 +68,8 @@ export const lots = snakeCase.table(
 			table.productVariantId,
 			table.expiryDate
 		),
+		index("lots_goods_receipt_line_id_idx").on(table.goodsReceiptLineId),
+		index("lots_adjustment_line_id_idx").on(table.adjustmentLineId),
 	]
 );
 
@@ -63,10 +90,6 @@ export const lotStockLevels = snakeCase.table(
 			.notNull()
 			.references(() => storageLocations.id, { onDelete: "restrict" }),
 		updatedAt: t.timestamp().defaultNow().notNull(),
-		// quantity >= 0 unless the variant's allowBackorder flag is set —
-		// cross-table condition, not expressible as a plain CHECK; enforce
-		// at the application layer within the same transaction that takes
-		// the row lock on this row during posting (design doc §2.7).
 	}),
 	(table) => [
 		foreignKey({
@@ -82,6 +105,11 @@ export const lotStockLevels = snakeCase.table(
 			table.productVariantId,
 			table.storageLocationId
 		),
+		index("lot_stock_levels_variant_location_qty_idx").on(
+			table.productVariantId,
+			table.storageLocationId,
+			table.quantity
+		),
 	]
 );
 
@@ -91,11 +119,20 @@ export const lotStockLevels = snakeCase.table(
 // transfers, or negative adjustments (those change quantity, not cost).
 // Current on-hand quantity for valuation reads comes from summing
 // lot_stock_levels at query time, not duplicated here.
-export const variantCosting = snakeCase.table("variant_costing", (t) => ({
-	avgUnitCost: t.numeric({ precision: 14, scale: 4 }).notNull().default("0"),
-	productVariantId: t
-		.uuid()
-		.primaryKey()
-		.references(() => productVariants.id, { onDelete: "restrict" }),
-	updatedAt: t.timestamp().defaultNow().notNull(),
-}));
+export const variantCosting = snakeCase.table(
+	"variant_costing",
+	(t) => ({
+		avgUnitCost: t.numeric({ precision: 14, scale: 4 }).notNull().default("0"),
+		productVariantId: t
+			.uuid()
+			.primaryKey()
+			.references(() => productVariants.id, { onDelete: "restrict" }),
+		updatedAt: t.timestamp().defaultNow().notNull(),
+	}),
+	(table) => [
+		check(
+			"variant_costing_avg_unit_cost_nonneg_chk",
+			sql`${table.avgUnitCost} >= 0`
+		),
+	]
+);
