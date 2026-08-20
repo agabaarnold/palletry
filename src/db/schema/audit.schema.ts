@@ -1,4 +1,5 @@
-import { index, snakeCase } from "drizzle-orm/pg-core";
+import { inArray } from "drizzle-orm";
+import { check, index, snakeCase } from "drizzle-orm/pg-core";
 import { users } from "./auth.schema";
 
 // For everything that ISN'T inventory movement (products, categories,
@@ -19,6 +20,10 @@ export const auditLog = snakeCase.table(
 		id: t.uuid().defaultRandom().primaryKey(),
 	}),
 	(table) => [
+		check(
+			"audit_log_action_check",
+			inArray(table.action, ["create", "update", "delete", "archive"])
+		),
 		index("audit_log_entity_idx").on(table.entityType, table.entityId),
 	]
 );
