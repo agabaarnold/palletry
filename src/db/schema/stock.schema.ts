@@ -41,6 +41,7 @@ export const stockMovements = snakeCase.table(
 			.references(() => storageLocations.id, { onDelete: "restrict" }),
 	}),
 	(table) => [
+		check("stock_movements_delta_qty_nonzero_chk", sql`${table.deltaQty} <> 0`),
 		index("stock_movements_variant_location_created_idx").on(
 			table.productVariantId,
 			table.storageLocationId,
