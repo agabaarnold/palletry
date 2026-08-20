@@ -20,9 +20,7 @@ import {
 } from "../ui/card";
 import { Separator } from "../ui/separator";
 
-const AppNotFoundComponent = ({
-	routeId,
-}: NotFoundRouteProps) => {
+const AppNotFoundComponent = ({ routeId }: NotFoundRouteProps) => {
 	const router = useRouter();
 
 	const handleBack = () => {
