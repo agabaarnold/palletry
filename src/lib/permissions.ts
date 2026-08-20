@@ -28,7 +28,7 @@ export const ac = createAccessControl(statements);
 const superAdminRole = ac.newRole({
 	...adminAc.statements,
 	...appStatements,
-	user: [...adminAc.statements.user, "impersonate-admins"],
+	user: ["impersonate-admins", ...adminAc.statements.user],
 });
 
 const adminRole = ac.newRole({
