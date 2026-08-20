@@ -1,7 +1,14 @@
-import { inArray } from "drizzle-orm";
-import { check, index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import {
+	check,
+	foreignKey,
+	index,
+	snakeCase,
+	uniqueIndex,
+} from "drizzle-orm/pg-core";
 import { users } from "./auth.schema";
 import { productVariants } from "./catalog.schema";
+import { salesOrderStatusEnum } from "./enums";
 import { lots } from "./lots.schema";
 import { storageLocations } from "./warehouse.schema";
 
@@ -28,13 +35,9 @@ export const salesOrders = snakeCase.table(
 			.references(() => customers.id, { onDelete: "restrict" }),
 		id: t.uuid().defaultRandom().primaryKey(),
 		orderNumber: t.text().notNull(),
-		status: t.text().notNull().default("draft"), // "draft" | "confirmed" | "fulfilled" | "cancelled"
+		status: salesOrderStatusEnum("status").notNull().default("draft"),
 	}),
 	(table) => [
-		check(
-			"sales_orders_status_check",
-			inArray(table.status, ["draft", "confirmed", "fulfilled", "cancelled"])
-		),
 		uniqueIndex("sales_orders_order_number_uidx").on(table.orderNumber),
 		index("sales_orders_customer_id_idx").on(table.customerId),
 		index("sales_orders_status_idx").on(table.status),
@@ -62,6 +65,14 @@ export const salesOrderLines = snakeCase.table(
 		unitPrice: t.numeric({ precision: 14, scale: 4 }),
 	}),
 	(table) => [
+		check(
+			"sales_order_lines_fulfilled_qty_bounds_chk",
+			sql`${table.fulfilledQty} >= 0 AND ${table.fulfilledQty} <= ${table.qty}`
+		),
+		check(
+			"sales_order_lines_unit_price_nonneg_chk",
+			sql`${table.unitPrice} >= 0`
+		),
 		index("sales_order_lines_sales_order_id_idx").on(table.salesOrderId),
 	]
 );
@@ -93,22 +104,32 @@ export const salesFulfillmentLines = snakeCase.table(
 		id: t.uuid().defaultRandom().primaryKey(),
 		lotId: t.uuid().references(() => lots.id, { onDelete: "restrict" }),
 		qty: t.numeric({ precision: 14, scale: 4 }).notNull(),
-		salesFulfillmentId: t
-			.uuid()
-			.notNull()
-			.references(() => salesFulfillments.id, { onDelete: "cascade" }),
-		salesOrderLineId: t
-			.uuid()
-			.notNull()
-			.references(() => salesOrderLines.id, { onDelete: "restrict" }),
-		storageLocationId: t
-			.uuid()
-			.notNull()
-			.references(() => storageLocations.id, { onDelete: "restrict" }),
+		salesFulfillmentId: t.uuid().notNull(),
+		salesOrderLineId: t.uuid().notNull(),
+		storageLocationId: t.uuid().notNull(),
 	}),
 	(table) => [
+		foreignKey({
+			columns: [table.salesFulfillmentId],
+			foreignColumns: [salesFulfillments.id],
+			name: "sales_fulfillment_lines_sales_fulfillment_id_fkey",
+		}).onDelete("cascade"),
+		foreignKey({
+			columns: [table.salesOrderLineId],
+			foreignColumns: [salesOrderLines.id],
+			name: "sales_fulfillment_lines_sales_order_line_id_fkey",
+		}).onDelete("restrict"),
+		foreignKey({
+			columns: [table.storageLocationId],
+			foreignColumns: [storageLocations.id],
+			name: "sales_fulfillment_lines_storage_location_id_fkey",
+		}).onDelete("restrict"),
+		check("sales_fulfillment_lines_qty_positive_chk", sql`${table.qty} > 0`),
 		index("sales_fulfillment_lines_sales_fulfillment_id_idx").on(
 			table.salesFulfillmentId
+		),
+		index("sales_fulfillment_lines_sales_order_line_id_idx").on(
+			table.salesOrderLineId
 		),
 	]
 );
