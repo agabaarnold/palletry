@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import { snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
 
 export const suppliers = snakeCase.table(
@@ -10,5 +11,9 @@ export const suppliers = snakeCase.table(
 		id: t.uuid().defaultRandom().primaryKey(),
 		name: t.text().notNull(),
 	}),
-	(table) => [uniqueIndex("suppliers_name_uidx").on(table.name)]
+	(table) => [
+		uniqueIndex("suppliers_name_uidx")
+			.on(table.name)
+			.where(sql`${table.archivedAt} IS NULL`),
+	]
 );
