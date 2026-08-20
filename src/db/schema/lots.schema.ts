@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
+import { foreignKey, index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
 import { productVariants } from "./catalog.schema";
 import { storageLocations } from "./warehouse.schema";
 
@@ -30,6 +30,10 @@ export const lots = snakeCase.table(
 		receivedUnitCost: t.numeric({ precision: 14, scale: 4 }),
 	}),
 	(table) => [
+		uniqueIndex("lots_id_product_variant_id_uidx").on(
+			table.id,
+			table.productVariantId
+		),
 		// Partial unique index: lot numbers are unique per variant only
 		// when present — multiple NULLs must NOT be treated as duplicates.
 		uniqueIndex("lots_variant_id_lot_number_uidx")
@@ -49,16 +53,10 @@ export const lotStockLevels = snakeCase.table(
 	"lot_stock_levels",
 	(t) => ({
 		id: t.uuid().defaultRandom().primaryKey(),
-		lotId: t
-			.uuid()
-			.notNull()
-			.references(() => lots.id, { onDelete: "restrict" }),
+		lotId: t.uuid().notNull(),
 		// Denormalized from lotId — deliberate, for query/index convenience
 		// (avoids a join on every "how much of variant X" read).
-		productVariantId: t
-			.uuid()
-			.notNull()
-			.references(() => productVariants.id, { onDelete: "restrict" }),
+		productVariantId: t.uuid().notNull(),
 		quantity: t.numeric({ precision: 14, scale: 4 }).notNull().default("0"),
 		storageLocationId: t
 			.uuid()
@@ -71,6 +69,11 @@ export const lotStockLevels = snakeCase.table(
 		// the row lock on this row during posting (design doc §2.7).
 	}),
 	(table) => [
+		foreignKey({
+			columns: [table.lotId, table.productVariantId],
+			foreignColumns: [lots.id, lots.productVariantId],
+			name: "lot_stock_levels_lot_variant_fk",
+		}).onDelete("restrict"),
 		uniqueIndex("lot_stock_levels_lot_id_location_id_uidx").on(
 			table.lotId,
 			table.storageLocationId
