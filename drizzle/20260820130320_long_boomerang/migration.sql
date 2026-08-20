@@ -1,4 +1,0 @@
-ALTER TABLE "audit_log" ADD CONSTRAINT "audit_log_action_check" CHECK ("action" in ('create', 'update', 'delete', 'archive'));--> statement-breakpoint
-ALTER TABLE "purchase_orders" ADD CONSTRAINT "purchase_orders_status_check" CHECK ("status" in ('draft', 'submitted', 'partially_received', 'received', 'cancelled'));--> statement-breakpoint
-ALTER TABLE "sales_orders" ADD CONSTRAINT "sales_orders_status_check" CHECK ("status" in ('draft', 'confirmed', 'fulfilled', 'cancelled'));--> statement-breakpoint
-ALTER TABLE "stock_movements" ADD CONSTRAINT "stock_movements_delta_qty_nonzero_chk" CHECK ("delta_qty" <> 0);
