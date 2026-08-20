@@ -1,6 +1,6 @@
+import { sql } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
 import { index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
 
 // Design doc §3.2 (v0.1) — categories, units_of_measure, products,
 // product_variants are unchanged from the original design.
@@ -44,7 +44,11 @@ export const unitsOfMeasure = snakeCase.table(
 		kind: t.text().notNull(),
 		name: t.text().notNull(),
 	}),
-	(table) => [uniqueIndex("units_of_measure_code_uidx").on(table.code).where(sql`${table.archivedAt} IS NULL`)]
+	(table) => [
+		uniqueIndex("units_of_measure_code_uidx")
+			.on(table.code)
+			.where(sql`${table.archivedAt} IS NULL`),
+	]
 );
 
 export const products = snakeCase.table(
@@ -87,7 +91,9 @@ export const productVariants = snakeCase.table(
 		trackingType: t.text().notNull().default("none"),
 	}),
 	(table) => [
-		uniqueIndex("product_variants_sku_uidx").on(table.sku).where(sql`${table.archivedAt} IS NULL`),
+		uniqueIndex("product_variants_sku_uidx")
+			.on(table.sku)
+			.where(sql`${table.archivedAt} IS NULL`),
 		index("product_variants_product_id_idx").on(table.productId),
 	]
 );
