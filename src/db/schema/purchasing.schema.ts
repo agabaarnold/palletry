@@ -1,7 +1,14 @@
-import { inArray } from "drizzle-orm";
-import { check, index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import {
+	check,
+	foreignKey,
+	index,
+	snakeCase,
+	uniqueIndex,
+} from "drizzle-orm/pg-core";
 import { users } from "./auth.schema";
 import { productVariants } from "./catalog.schema";
+import { purchaseOrderStatusEnum } from "./enums";
 import { suppliers } from "./suppliers.schema";
 import { storageLocations } from "./warehouse.schema";
 
@@ -15,25 +22,13 @@ export const purchaseOrders = snakeCase.table(
 			.references(() => users.id, { onDelete: "restrict" }),
 		id: t.uuid().defaultRandom().primaryKey(),
 		orderNumber: t.text().notNull(),
-		// "draft" | "submitted" | "partially_received" | "received" |
-		// "cancelled" — design doc §2.4
-		status: t.text().notNull().default("draft"),
+		status: purchaseOrderStatusEnum("status").notNull().default("draft"),
 		supplierId: t
 			.uuid()
 			.notNull()
 			.references(() => suppliers.id, { onDelete: "restrict" }),
 	}),
 	(table) => [
-		check(
-			"purchase_orders_status_check",
-			inArray(table.status, [
-				"draft",
-				"submitted",
-				"partially_received",
-				"received",
-				"cancelled",
-			])
-		),
 		uniqueIndex("purchase_orders_order_number_uidx").on(table.orderNumber),
 		index("purchase_orders_supplier_id_idx").on(table.supplierId),
 		index("purchase_orders_status_idx").on(table.status),
@@ -45,18 +40,10 @@ export const purchaseOrderLines = snakeCase.table(
 	(t) => ({
 		id: t.uuid().defaultRandom().primaryKey(),
 		orderedQty: t.numeric({ precision: 14, scale: 4 }).notNull(),
-		productVariantId: t
-			.uuid()
-			.notNull()
-			.references(() => productVariants.id, { onDelete: "restrict" }),
+		productVariantId: t.uuid().notNull(),
 		purchaseOrderId: t
 			.uuid()
 			.notNull()
-			// Cascade is safe here: lines only exist relative to their PO,
-			// and a PO can only be hard-deleted while still `draft` (app
-			// rule) — once anything's been received it's cancelled, not
-			// deleted, so this cascade path never actually fires against
-			// a PO with real history.
 			.references(() => purchaseOrders.id, { onDelete: "cascade" }),
 		// Derived: denormalized sum of goods_receipt_lines against this
 		// line, kept in sync transactionally at receipt-posting time only.
@@ -65,6 +52,19 @@ export const purchaseOrderLines = snakeCase.table(
 		unitCost: t.numeric({ precision: 14, scale: 4 }).notNull(),
 	}),
 	(table) => [
+		foreignKey({
+			columns: [table.productVariantId],
+			foreignColumns: [productVariants.id],
+			name: "purchase_order_lines_product_variant_id_fkey",
+		}).onDelete("restrict"),
+		check(
+			"purchase_order_lines_received_qty_bounds_chk",
+			sql`${table.receivedQty} >= 0 AND ${table.receivedQty} <= ${table.orderedQty}`
+		),
+		check(
+			"purchase_order_lines_unit_cost_nonneg_chk",
+			sql`${table.unitCost} >= 0`
+		),
 		index("purchase_order_lines_purchase_order_id_idx").on(
 			table.purchaseOrderId
 		),
@@ -102,15 +102,9 @@ export const goodsReceiptLines = snakeCase.table(
 			.notNull()
 			.references(() => goodsReceipts.id, { onDelete: "cascade" }),
 		id: t.uuid().defaultRandom().primaryKey(),
-		purchaseOrderLineId: t
-			.uuid()
-			.notNull()
-			.references(() => purchaseOrderLines.id, { onDelete: "restrict" }),
+		purchaseOrderLineId: t.uuid().notNull(),
 		qty: t.numeric({ precision: 14, scale: 4 }).notNull(),
-		storageLocationId: t
-			.uuid()
-			.notNull()
-			.references(() => storageLocations.id, { onDelete: "restrict" }),
+		storageLocationId: t.uuid().notNull(),
 		// What we actually paid for this batch — feeds `lots.receivedUnitCost`
 		// (audit/reference) and the `variant_costing` moving-average update.
 		// See lots.schema.ts for why this is NOT the same thing as per-lot
@@ -118,6 +112,24 @@ export const goodsReceiptLines = snakeCase.table(
 		unitCost: t.numeric({ precision: 14, scale: 4 }).notNull(),
 	}),
 	(table) => [
+		foreignKey({
+			columns: [table.purchaseOrderLineId],
+			foreignColumns: [purchaseOrderLines.id],
+			name: "goods_receipt_lines_purchase_order_line_id_fkey",
+		}).onDelete("restrict"),
+		foreignKey({
+			columns: [table.storageLocationId],
+			foreignColumns: [storageLocations.id],
+			name: "goods_receipt_lines_storage_location_id_fkey",
+		}).onDelete("restrict"),
+		check("goods_receipt_lines_qty_positive_chk", sql`${table.qty} > 0`),
+		check(
+			"goods_receipt_lines_unit_cost_nonneg_chk",
+			sql`${table.unitCost} >= 0`
+		),
 		index("goods_receipt_lines_goods_receipt_id_idx").on(table.goodsReceiptId),
+		index("goods_receipt_lines_purchase_order_line_id_idx").on(
+			table.purchaseOrderLineId
+		),
 	]
 );
