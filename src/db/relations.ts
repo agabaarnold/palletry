@@ -2,17 +2,12 @@ import { defineRelations, defineRelationsPart } from "drizzle-orm";
 import { schema } from "./schema";
 import { accounts, sessions, users, verifications } from "./schema/auth.schema";
 
-// NOTE on the users/accounts/sessions/verifications split: authRelations
-// (below) owns the `users` key of the merged relations config (see
-// db/index.ts: `{ ...mainRelations, ...authRelations }`, a shallow
-// spread). mainRelations therefore defines relations FROM domain tables
-// TO users (e.g. "this purchase order was created by this user") but
-// deliberately does NOT add a top-level `users: {...}` block of its own —
-// doing so would collide with authRelations' users block rather than
-// merge with it. Practical effect: `db.query.purchaseOrders.findMany({
-// with: { createdByUser: true } })` works; `db.query.users.findMany({
-// with: { purchaseOrders: true } })` does not, until the merge itself is
-// restructured to combine parts per-table instead of overwriting.
+// NOTE on the users/accounts/sessions/verifications split: mainRelations
+// defines the `users` block with domain inverse relations (e.g. the list of
+// purchase orders created by this user), while authRelations defines the
+// same `users` block with auth-only relations (accounts, sessions). Both
+// are merged per-table in db/index.ts via a manual combine rather than a
+// shallow spread, so both sets of relations coexist under `users`.
 export const mainRelations = defineRelations(schema, (r) => ({
 	adjustmentLines: {
 		adjustment: r.one.adjustments({
@@ -436,6 +431,45 @@ export const mainRelations = defineRelations(schema, (r) => ({
 		variants: r.many.productVariants({
 			from: r.unitsOfMeasure.id,
 			to: r.productVariants.baseUomId,
+		}),
+	},
+
+	users: {
+		adjustments: r.many.adjustments({
+			from: r.users.id,
+			to: r.adjustments.postedBy,
+		}),
+		auditLog: r.many.auditLog({
+			from: r.users.id,
+			to: r.auditLog.actorId,
+		}),
+		goodsReceipts: r.many.goodsReceipts({
+			from: r.users.id,
+			to: r.goodsReceipts.receivedBy,
+		}),
+		purchaseOrders: r.many.purchaseOrders({
+			from: r.users.id,
+			to: r.purchaseOrders.createdBy,
+		}),
+		salesFulfillments: r.many.salesFulfillments({
+			from: r.users.id,
+			to: r.salesFulfillments.fulfilledBy,
+		}),
+		salesOrders: r.many.salesOrders({
+			from: r.users.id,
+			to: r.salesOrders.createdBy,
+		}),
+		stockIssues: r.many.stockIssues({
+			from: r.users.id,
+			to: r.stockIssues.postedBy,
+		}),
+		stockMovements: r.many.stockMovements({
+			from: r.users.id,
+			to: r.stockMovements.performedBy,
+		}),
+		transfers: r.many.transfers({
+			from: r.users.id,
+			to: r.transfers.postedBy,
 		}),
 	},
 
