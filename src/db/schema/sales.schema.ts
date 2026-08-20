@@ -1,4 +1,5 @@
-import { index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
+import { inArray } from "drizzle-orm";
+import { check, index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
 import { users } from "./auth.schema";
 import { productVariants } from "./catalog.schema";
 import { lots } from "./lots.schema";
@@ -30,6 +31,10 @@ export const salesOrders = snakeCase.table(
 		status: t.text().notNull().default("draft"), // "draft" | "confirmed" | "fulfilled" | "cancelled"
 	}),
 	(table) => [
+		check(
+			"sales_orders_status_check",
+			inArray(table.status, ["draft", "confirmed", "fulfilled", "cancelled"])
+		),
 		uniqueIndex("sales_orders_order_number_uidx").on(table.orderNumber),
 		index("sales_orders_customer_id_idx").on(table.customerId),
 		index("sales_orders_status_idx").on(table.status),
