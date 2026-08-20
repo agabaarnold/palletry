@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
 import { index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
+import { trackingTypeEnum, uomKindEnum } from "./enums";
 
 // Design doc §3.2 (v0.1) — categories, units_of_measure, products,
 // product_variants are unchanged from the original design.
@@ -38,10 +39,7 @@ export const unitsOfMeasure = snakeCase.table(
 		code: t.text().notNull(), // e.g. "EA", "BOX12"
 		createdAt: t.timestamp().defaultNow().notNull(),
 		id: t.uuid().defaultRandom().primaryKey(),
-		// "count" | "weight" | "volume" — validated at the app layer
-		// (Zod), not a Postgres enum, matching the existing convention
-		// in auth.schema.ts (users.role is also plain text).
-		kind: t.text().notNull(),
+		kind: uomKindEnum("kind").notNull(),
 		name: t.text().notNull(),
 	}),
 	(table) => [
@@ -88,7 +86,7 @@ export const productVariants = snakeCase.table(
 		// creates a `lots` row regardless of this value; this only
 		// controls whether lot number/expiry are collected from the user
 		// and whether outbound picking asks them to choose a lot.
-		trackingType: t.text().notNull().default("none"),
+		trackingType: trackingTypeEnum("tracking_type").notNull().default("none"),
 	}),
 	(table) => [
 		uniqueIndex("product_variants_sku_uidx")
