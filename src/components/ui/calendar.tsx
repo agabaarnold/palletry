@@ -3,7 +3,7 @@ import {
 	IconChevronLeft,
 	IconChevronRight,
 } from "@tabler/icons-react";
-import * as React from "react";
+import { type ComponentProps, useEffect, useRef } from "react";
 import {
 	type DayButton,
 	DayPicker,
@@ -168,47 +168,6 @@ function Calendar({
 				),
 				...components,
 			}}
-			components={{
-				Chevron: ({ className, orientation, ...props }) => {
-					if (orientation === "left") {
-						return (
-							<IconChevronLeft className={cn("size-4", className)} {...props} />
-						);
-					}
-
-					if (orientation === "right") {
-						return (
-							<IconChevronRight
-								className={cn("size-4", className)}
-								{...props}
-							/>
-						);
-					}
-
-					return (
-						<IconChevronDown className={cn("size-4", className)} {...props} />
-					);
-				},
-				DayButton: ({ ...props }) => (
-					<CalendarDayButton locale={locale} {...props} />
-				),
-				Root: ({ className, rootRef, ...props }) => (
-					<div
-						className={cn(className)}
-						data-slot="calendar"
-						ref={rootRef}
-						{...props}
-					/>
-				),
-				WeekNumber: ({ children, ...props }) => (
-					<td {...props}>
-						<div className="flex size-(--cell-size) items-center justify-center text-center">
-							{children}
-						</div>
-					</td>
-				),
-				...components,
-			}}
 			formatters={{
 				formatMonthDropdown: (date) =>
 					date.toLocaleString(locale?.code, { month: "short" }),
@@ -226,11 +185,11 @@ function CalendarDayButton({
 	modifiers,
 	locale,
 	...props
-}: React.ComponentProps<typeof DayButton> & { locale?: Partial<Locale> }) {
+}: ComponentProps<typeof DayButton> & { locale?: Partial<Locale> }) {
 	const defaultClassNames = getDefaultClassNames();
 
-	const ref = React.useRef<HTMLButtonElement>(null);
-	React.useEffect(() => {
+	const ref = useRef<HTMLButtonElement>(null);
+	useEffect(() => {
 		if (modifiers.focused) {
 			ref.current?.focus();
 		}
