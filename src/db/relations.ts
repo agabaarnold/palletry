@@ -113,9 +113,21 @@ export const mainRelations = defineRelations(schema, (r) => ({
 	},
 
 	lots: {
+		adjustmentLines: r.many.adjustmentLines({
+			from: r.lots.id,
+			to: r.adjustmentLines.lotId,
+		}),
 		productVariant: r.one.productVariants({
 			from: r.lots.productVariantId,
 			to: r.productVariants.id,
+		}),
+		salesFulfillmentLines: r.many.salesFulfillmentLines({
+			from: r.lots.id,
+			to: r.salesFulfillmentLines.lotId,
+		}),
+		stockIssueLines: r.many.stockIssueLines({
+			from: r.lots.id,
+			to: r.stockIssueLines.lotId,
 		}),
 		stockLevels: r.many.lotStockLevels({
 			from: r.lots.id,
@@ -124,6 +136,10 @@ export const mainRelations = defineRelations(schema, (r) => ({
 		stockMovements: r.many.stockMovements({
 			from: r.lots.id,
 			to: r.stockMovements.lotId,
+		}),
+		transferLines: r.many.transferLines({
+			from: r.lots.id,
+			to: r.transferLines.lotId,
 		}),
 	},
 
