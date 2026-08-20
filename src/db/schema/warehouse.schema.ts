@@ -1,5 +1,5 @@
-import { foreignKey, index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
+import { foreignKey, index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
 
 export const warehouses = snakeCase.table(
 	"warehouses",
@@ -11,7 +11,11 @@ export const warehouses = snakeCase.table(
 		id: t.uuid().defaultRandom().primaryKey(),
 		name: t.text().notNull(),
 	}),
-	(table) => [uniqueIndex("warehouses_code_uidx").on(table.code).where(sql`${table.archivedAt} IS NULL`)]
+	(table) => [
+		uniqueIndex("warehouses_code_uidx")
+			.on(table.code)
+			.where(sql`${table.archivedAt} IS NULL`),
+	]
 );
 
 export const storageLocations = snakeCase.table(
