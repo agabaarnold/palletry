@@ -32,9 +32,6 @@ export const lots = snakeCase.table(
 	(table) => [
 		// Partial unique index: lot numbers are unique per variant only
 		// when present — multiple NULLs must NOT be treated as duplicates.
-		// Verify this `.where()` partial-index syntax against the installed
-		// drizzle-kit version; it's less commonly exercised than a plain
-		// unique index.
 		uniqueIndex("lots_variant_id_lot_number_uidx")
 			.on(table.productVariantId, table.lotNumber)
 			.where(sql`${table.lotNumber} IS NOT NULL`),
