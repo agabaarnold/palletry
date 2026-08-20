@@ -1,6 +1,6 @@
-import { inArray } from "drizzle-orm";
-import { check, index, snakeCase } from "drizzle-orm/pg-core";
+import { index, snakeCase } from "drizzle-orm/pg-core";
 import { users } from "./auth.schema";
+import { auditActionEnum } from "./enums";
 
 // For everything that ISN'T inventory movement (products, categories,
 // warehouses, role assignments, ...) — inventory changes are already
@@ -8,7 +8,7 @@ import { users } from "./auth.schema";
 export const auditLog = snakeCase.table(
 	"audit_log",
 	(t) => ({
-		action: t.text().notNull(), // "create" | "update" | "delete" | "archive"
+		action: auditActionEnum("action").notNull(),
 		actorId: t
 			.text()
 			.notNull()
@@ -20,10 +20,6 @@ export const auditLog = snakeCase.table(
 		id: t.uuid().defaultRandom().primaryKey(),
 	}),
 	(table) => [
-		check(
-			"audit_log_action_check",
-			inArray(table.action, ["create", "update", "delete", "archive"])
-		),
 		index("audit_log_entity_idx").on(table.entityType, table.entityId),
 	]
 );
