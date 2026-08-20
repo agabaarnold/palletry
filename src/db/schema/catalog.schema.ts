@@ -1,5 +1,6 @@
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
 import { index, snakeCase, uniqueIndex } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 
 // Design doc §3.2 (v0.1) — categories, units_of_measure, products,
 // product_variants are unchanged from the original design.
@@ -19,10 +20,13 @@ export const categories = snakeCase.table(
 	}),
 	(table) => [
 		// No duplicate sibling names under the same parent.
-		uniqueIndex("categories_parent_id_name_uidx").on(
-			table.parentId,
-			table.name
-		),
+		uniqueIndex("categories_parent_id_name_uidx")
+			.on(table.parentId, table.name)
+			.where(sql`${table.parentId} IS NOT NULL`),
+		// No duplicate root category names.
+		uniqueIndex("categories_root_name_uidx")
+			.on(table.name)
+			.where(sql`${table.parentId} IS NULL`),
 		index("categories_parent_id_idx").on(table.parentId),
 	]
 );
