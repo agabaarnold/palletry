@@ -1,0 +1,122 @@
+import { createTransport } from "nodemailer";
+import { render } from "react-email";
+import { env } from "#/env.ts";
+import EmailChangeEmail from "../components/email-change-email";
+import EmailVerificationEmail from "../components/email-verification-email";
+import PasswordResetEmail from "../components/password-reset-email";
+
+type AuthEmailPayload =
+	| {
+			kind: "password-reset";
+			to: string;
+			name?: string | null;
+			url: string;
+			expiresInMinutes?: number;
+	  }
+	| {
+			kind: "email-verification";
+			to: string;
+			name?: string | null;
+			url: string;
+			expiresInMinutes?: number;
+	  }
+	| {
+			kind: "email-change";
+			to: string;
+			name?: string | null;
+			url: string;
+			newEmail: string;
+	  };
+
+const transporter = createTransport({
+	auth: {
+		pass: env.SMTP_PASS,
+		user: env.SMTP_USER,
+	},
+	connectionTimeout: 10_000,
+	greetingTimeout: 10_000,
+	host: env.SMTP_HOST,
+	port: env.SMTP_PORT,
+	secure: env.SMTP_PORT === 465,
+	socketTimeout: 20_000,
+});
+
+function getFromAddress() {
+	return env.SMTP_FROM?.trim() || `"Palletry" <no-reply@palletry.com>`;
+}
+
+export async function sendAuthEmail(payload: AuthEmailPayload) {
+	const from = getFromAddress();
+
+	if (payload.kind === "password-reset") {
+		const html = await render(
+			<PasswordResetEmail
+				expiresInMinutes={payload.expiresInMinutes ?? 30}
+				name={payload.name ?? undefined}
+				resetUrl={payload.url}
+			/>
+		);
+
+		await transporter.sendMail({
+			from,
+			html,
+			subject: "Palletry password reset",
+			text: [
+				`Hi ${payload.name ?? "there"},`,
+				"",
+				`Reset your password here: ${payload.url}`,
+				"",
+				`This link expires in ${payload.expiresInMinutes ?? 30} minutes.`,
+			].join("\n"),
+			to: payload.to,
+		});
+
+		return;
+	}
+	if (payload.kind === "email-verification") {
+		const html = await render(
+			<EmailVerificationEmail
+				expiresInMinutes={payload?.expiresInMinutes ?? 60}
+				name={payload.name ?? undefined}
+				verificationUrl={payload.url}
+			/>
+		);
+
+		await transporter.sendMail({
+			from,
+			html,
+			subject: "Palletry email verification",
+			text: [
+				`Hi ${payload.name ?? "there"},`,
+				"",
+				`Verify your email here: ${payload.url}`,
+				"",
+				`This link expires in ${payload?.expiresInMinutes ?? 60} minutes.`,
+			].join("\n"),
+			to: payload.to,
+		});
+
+		return;
+	}
+
+	const html = await render(
+		<EmailChangeEmail
+			confirmationUrl={payload.url}
+			name={payload.name ?? undefined}
+			newEmail={payload.newEmail}
+		/>
+	);
+
+	await transporter.sendMail({
+		from,
+		html,
+		subject: "Approve Palletry account email change",
+		text: [
+			`Hi ${payload.name ?? "there"},`,
+			"",
+			`Click the link to approve the change to ${payload.newEmail}: ${payload.url}`,
+			"",
+		].join("\n"),
+		to: payload.to,
+	});
+}
