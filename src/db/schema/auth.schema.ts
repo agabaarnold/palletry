@@ -29,6 +29,7 @@ export const sessions = snakeCase.table(
 		token: t.text().notNull().unique(),
 		updatedAt: t
 			.timestamp()
+			.defaultNow()
 			.$onUpdate(() => /* @__PURE__ */ new Date())
 			.notNull(),
 		userAgent: t.text(),
@@ -57,6 +58,7 @@ export const accounts = snakeCase.table(
 		scope: t.text(),
 		updatedAt: t
 			.timestamp()
+			.defaultNow()
 			.$onUpdate(() => /* @__PURE__ */ new Date())
 			.notNull(),
 		userId: t
