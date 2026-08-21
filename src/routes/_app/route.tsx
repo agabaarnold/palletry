@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_app")({
 			throw redirect({ to: "/sign-in", search: { redirect: location.href } });
 		}
 
-		return { session };
+		return { user: session.user };
 	},
 	component: AppLayout,
 });
