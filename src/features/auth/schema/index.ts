@@ -29,3 +29,19 @@ export const loginSchema = z.object({
 	rememberMe: z.boolean(),
 });
 export type LoginInput = z.infer<typeof loginSchema>;
+
+export const forgotPasswordSchema = z.object({
+	email: z.email(),
+});
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+
+export const resetPasswordSchema = z
+	.object({
+		confirmPassword: passwordSchema,
+		newPassword: passwordSchema,
+	})
+	.refine((data) => data.newPassword === data.confirmPassword, {
+		message: "Passwords do not match",
+		path: ["confirmPassword"],
+	});
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
