@@ -72,6 +72,10 @@ export const mainRelations = defineRelations(schema, (r) => ({
 			from: r.goodsReceiptLines.goodsReceiptId,
 			to: r.goodsReceipts.id,
 		}),
+		lots: r.many.lots({
+			from: r.goodsReceiptLines.id,
+			to: r.lots.goodsReceiptLineId,
+		}),
 		purchaseOrderLine: r.one.purchaseOrderLines({
 			from: r.goodsReceiptLines.purchaseOrderLineId,
 			to: r.purchaseOrderLines.id,
@@ -113,9 +117,17 @@ export const mainRelations = defineRelations(schema, (r) => ({
 	},
 
 	lots: {
+		adjustmentLine: r.one.adjustmentLines({
+			from: r.lots.adjustmentLineId,
+			to: r.adjustmentLines.id,
+		}),
 		adjustmentLines: r.many.adjustmentLines({
 			from: r.lots.id,
 			to: r.adjustmentLines.lotId,
+		}),
+		goodsReceiptLine: r.one.goodsReceiptLines({
+			from: r.lots.goodsReceiptLineId,
+			to: r.goodsReceiptLines.id,
 		}),
 		productVariant: r.one.productVariants({
 			from: r.lots.productVariantId,
@@ -334,6 +346,14 @@ export const mainRelations = defineRelations(schema, (r) => ({
 	},
 
 	stockMovements: {
+		adjustmentLine: r.one.adjustmentLines({
+			from: r.stockMovements.adjustmentLineId,
+			to: r.adjustmentLines.id,
+		}),
+		goodsReceiptLine: r.one.goodsReceiptLines({
+			from: r.stockMovements.goodsReceiptLineId,
+			to: r.goodsReceiptLines.id,
+		}),
 		lot: r.one.lots({
 			from: r.stockMovements.lotId,
 			to: r.lots.id,
@@ -346,9 +366,25 @@ export const mainRelations = defineRelations(schema, (r) => ({
 			from: r.stockMovements.productVariantId,
 			to: r.productVariants.id,
 		}),
+		reversalMovement: r.one.stockMovements({
+			from: r.stockMovements.reversalMovementId,
+			to: r.stockMovements.id,
+		}),
+		salesFulfillmentLine: r.one.salesFulfillmentLines({
+			from: r.stockMovements.salesFulfillmentLineId,
+			to: r.salesFulfillmentLines.id,
+		}),
+		stockIssueLine: r.one.stockIssueLines({
+			from: r.stockMovements.stockIssueLineId,
+			to: r.stockIssueLines.id,
+		}),
 		storageLocation: r.one.storageLocations({
 			from: r.stockMovements.storageLocationId,
 			to: r.storageLocations.id,
+		}),
+		transferLine: r.one.transferLines({
+			from: r.stockMovements.transferLineId,
+			to: r.transferLines.id,
 		}),
 	},
 
