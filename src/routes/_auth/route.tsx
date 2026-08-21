@@ -3,7 +3,7 @@ import { getSession } from "#/features/auth/functions/index.ts";
 
 export const Route = createFileRoute("/_auth")({
 	beforeLoad: async () => {
-		const session = await getSession();
+		const { session } = await getSession();
 		if (session) {
 			throw redirect({ to: "/", replace: true });
 		}
