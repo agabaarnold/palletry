@@ -11,7 +11,7 @@ CREATE TABLE "accounts" (
 	"refresh_token" text,
 	"refresh_token_expires_at" timestamp,
 	"scope" text,
-	"updated_at" timestamp NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"user_id" text NOT NULL
 );
 --> statement-breakpoint
@@ -22,7 +22,7 @@ CREATE TABLE "sessions" (
 	"impersonated_by" text,
 	"ip_address" text,
 	"token" text NOT NULL UNIQUE,
-	"updated_at" timestamp NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"user_agent" text,
 	"user_id" text NOT NULL
 );

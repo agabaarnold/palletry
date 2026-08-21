@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "d3a09fc6-45fd-4a6c-b548-c6cf4ede7b3b",
+  "id": "fe852e16-7abb-4e99-8656-db860a47d564",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -191,7 +191,7 @@
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "now()",
       "generated": null,
       "identity": null,
       "name": "updated_at",
@@ -295,7 +295,7 @@
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "now()",
       "generated": null,
       "identity": null,
       "name": "updated_at",
