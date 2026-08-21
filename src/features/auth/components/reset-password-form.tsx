@@ -1,6 +1,7 @@
 import { revalidateLogic } from "@tanstack/react-form";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { toast } from "react-hot-toast";
+import { buttonVariants } from "#/components/ui/button.tsx";
 import {
 	Card,
 	CardContent,
@@ -60,6 +61,12 @@ export default function ResetPasswordForm() {
 						new password reset.
 					</CardDescription>
 				</CardHeader>
+
+				<CardContent className="text-center">
+					<Link className={buttonVariants()} to="/forgot-password">
+						Request a new link
+					</Link>
+				</CardContent>
 			</Card>
 		);
 	}
@@ -70,7 +77,7 @@ export default function ResetPasswordForm() {
 				<CardTitle className="font-semibold text-xl">
 					Reset your password
 				</CardTitle>
-                
+
 				<CardDescription>Enter your new password</CardDescription>
 			</CardHeader>
 
