@@ -7,6 +7,8 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "#/components/shared/theme-provider.tsx";
 import { TooltipProvider } from "#/components/ui/tooltip.tsx";
 import appCss from "../styles.css?url";
 
@@ -24,6 +26,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				name: "viewport",
 				content: "width=device-width, initial-scale=1",
 			},
+			{ name: "color-scheme", content: "light dark" },
 			{
 				title: "Palletry",
 			},
@@ -40,13 +43,17 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
 
 			<body>
-				<TooltipProvider>{children}</TooltipProvider>
+				<ThemeProvider defaultTheme="system" storageKey="theme">
+					<TooltipProvider>{children}</TooltipProvider>
+					<Toaster />
+				</ThemeProvider>
+
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",
