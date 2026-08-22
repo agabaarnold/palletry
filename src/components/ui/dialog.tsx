@@ -1,8 +1,6 @@
-"use client";
-
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { IconX } from "@tabler/icons-react";
-import type * as React from "react";
+import type { ComponentProps } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -58,7 +56,7 @@ function DialogContent({
 				{...props}
 			>
 				{children}
-				{showCloseButton && (
+				{showCloseButton ? (
 					<DialogPrimitive.Close
 						data-slot="dialog-close"
 						render={
@@ -72,13 +70,13 @@ function DialogContent({
 						<IconX />
 						<span className="sr-only">Close</span>
 					</DialogPrimitive.Close>
-				)}
+				) : null}
 			</DialogPrimitive.Popup>
 		</DialogPortal>
 	);
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
+function DialogHeader({ className, ...props }: ComponentProps<"div">) {
 	return (
 		<div
 			className={cn("flex flex-col gap-2", className)}
@@ -106,11 +104,11 @@ function DialogFooter({
 			{...props}
 		>
 			{children}
-			{showCloseButton && (
+			{showCloseButton ? (
 				<DialogPrimitive.Close render={<Button variant="outline" />}>
 					Close
 				</DialogPrimitive.Close>
-			)}
+			) : null}
 		</div>
 	);
 }

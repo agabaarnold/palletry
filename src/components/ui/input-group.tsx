@@ -1,11 +1,11 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import type { ComponentProps } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
-function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
+function InputGroup({ className, ...props }: ComponentProps<"div">) {
 	return (
 		<div
 			className={cn(
@@ -44,7 +44,7 @@ function InputGroupAddon({
 	className,
 	align = "inline-start",
 	...props
-}: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
+}: ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
 	return (
 		<div
 			className={cn(inputGroupAddonVariants({ align }), className)}
@@ -86,7 +86,7 @@ function InputGroupButton({
 	variant = "ghost",
 	size = "xs",
 	...props
-}: Omit<React.ComponentProps<typeof Button>, "size" | "type"> &
+}: Omit<ComponentProps<typeof Button>, "size" | "type"> &
 	VariantProps<typeof inputGroupButtonVariants> & {
 		type?: "button" | "submit" | "reset";
 	}) {
@@ -101,7 +101,7 @@ function InputGroupButton({
 	);
 }
 
-function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
+function InputGroupText({ className, ...props }: ComponentProps<"span">) {
 	return (
 		<span
 			className={cn(
@@ -113,10 +113,7 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
 	);
 }
 
-function InputGroupInput({
-	className,
-	...props
-}: React.ComponentProps<"input">) {
+function InputGroupInput({ className, ...props }: ComponentProps<"input">) {
 	return (
 		<Input
 			className={cn(
@@ -132,7 +129,7 @@ function InputGroupInput({
 function InputGroupTextarea({
 	className,
 	...props
-}: React.ComponentProps<"textarea">) {
+}: ComponentProps<"textarea">) {
 	return (
 		<Textarea
 			className={cn(

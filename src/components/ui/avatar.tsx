@@ -1,6 +1,5 @@
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
-import type * as React from "react";
-
+import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 function Avatar({
@@ -52,7 +51,7 @@ function AvatarFallback({
 	);
 }
 
-function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
+function AvatarBadge({ className, ...props }: ComponentProps<"span">) {
 	return (
 		<span
 			className={cn(
@@ -68,7 +67,7 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
 	);
 }
 
-function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
+function AvatarGroup({ className, ...props }: ComponentProps<"div">) {
 	return (
 		<div
 			className={cn(
@@ -81,10 +80,7 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
 	);
 }
 
-function AvatarGroupCount({
-	className,
-	...props
-}: React.ComponentProps<"div">) {
+function AvatarGroupCount({ className, ...props }: ComponentProps<"div">) {
 	return (
 		<div
 			className={cn(

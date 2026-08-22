@@ -1,6 +1,5 @@
 import { Popover as PopoverPrimitive } from "@base-ui/react/popover";
-import type * as React from "react";
-
+import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 function Popover({ ...props }: PopoverPrimitive.Root.Props) {
@@ -45,7 +44,7 @@ function PopoverContent({
 	);
 }
 
-function PopoverHeader({ className, ...props }: React.ComponentProps<"div">) {
+function PopoverHeader({ className, ...props }: ComponentProps<"div">) {
 	return (
 		<div
 			className={cn("flex flex-col gap-0.5 text-sm", className)}

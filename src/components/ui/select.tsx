@@ -5,8 +5,8 @@ import {
 	IconChevronUp,
 	IconSelector,
 } from "@tabler/icons-react";
-import type * as React from "react";
 import { cn } from "@/lib/utils";
+import type { ComponentProps } from "react";
 
 const Select = SelectPrimitive.Root;
 
@@ -157,7 +157,7 @@ function SelectSeparator({
 function SelectScrollUpButton({
 	className,
 	...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>) {
+}: ComponentProps<typeof SelectPrimitive.ScrollUpArrow>) {
 	return (
 		<SelectPrimitive.ScrollUpArrow
 			className={cn(
@@ -175,7 +175,7 @@ function SelectScrollUpButton({
 function SelectScrollDownButton({
 	className,
 	...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollDownArrow>) {
+}: ComponentProps<typeof SelectPrimitive.ScrollDownArrow>) {
 	return (
 		<SelectPrimitive.ScrollDownArrow
 			className={cn(
