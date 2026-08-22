@@ -12,7 +12,7 @@ interface FormInputProps {
 	>;
 }
 
-const FormInput = ({ label, placeholder, type }: FormInputProps)=> {
+const FormInput = ({ label, placeholder, type }: FormInputProps) => {
 	const field = useFieldContext<string>();
 	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
@@ -34,9 +34,9 @@ const FormInput = ({ label, placeholder, type }: FormInputProps)=> {
 				value={field.state.value}
 			/>
 
-			{isInvalid ? <FieldError errors={field.state.meta.errors} />: null}
+			{isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
 		</Field>
 	);
-}
+};
 
-export default FormInput
+export default FormInput;

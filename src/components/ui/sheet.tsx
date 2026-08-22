@@ -69,7 +69,7 @@ function SheetContent({
 						<IconX />
 						<span className="sr-only">Close</span>
 					</SheetPrimitive.Close>
-				): null}
+				) : null}
 			</SheetPrimitive.Popup>
 		</SheetPortal>
 	);

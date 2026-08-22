@@ -17,7 +17,7 @@ const FormCheckbox = ({ label }: FormCheckboxProps) => {
 				name={field.name}
 				onCheckedChange={(checked) => field.handleChange(checked)}
 			/>
-            
+
 			<FieldLabel htmlFor={field.name}>{label}</FieldLabel>
 		</Field>
 	);
